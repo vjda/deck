@@ -6,6 +6,7 @@ import { IRecentHistoryEntry, RecentHistoryService } from 'core/history';
 import { ReactInjector } from 'core/reactShims';
 
 import { ISearchResult, ISearchResultPodData, SearchResultPods } from './SearchResultPods';
+import { SETTINGS } from 'core/config/settings';
 
 export interface IChildComponentProps {
   results: ISearchResultPodData[];
@@ -25,7 +26,14 @@ export interface IRecentlyViewedItemsState {
 
 export class RecentlyViewedItems extends React.Component<IRecentlyViewedItemsProps, IRecentlyViewedItemsState> {
   public state: IRecentlyViewedItemsState = { recentItems: [] };
-  private categories = ['projects', 'applications', 'loadBalancers', 'serverGroups', 'instances', 'securityGroups'];
+  private categories = [
+    ...(SETTINGS.feature.projects ? ['projects'] : []),
+    'applications',
+    'loadBalancers',
+    'serverGroups',
+    'instances',
+    'securityGroups',
+  ];
   private search = ReactInjector.infrastructureSearchService.getSearcher();
 
   private refresh$ = new Subject<string[]>();
@@ -50,7 +58,9 @@ export class RecentlyViewedItems extends React.Component<IRecentlyViewedItemsPro
             return Promise.all(promises).then((results) => ({
               category,
               config,
-              results: this.props.limit ? results.slice(0, this.props.limit) : results,
+              results: (this.props.limit ? results.slice(0, this.props.limit) : results).filter(
+                (result) => !(category == 'applications' && !SETTINGS.feature.projects && result.params.project),
+              ),
             }));
           }),
         );

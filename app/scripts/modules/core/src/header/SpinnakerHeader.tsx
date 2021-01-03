@@ -2,6 +2,7 @@ import React from 'react';
 import { useRecoilState } from 'recoil';
 import { useCurrentStateAndParams, useSrefActive } from '@uirouter/react';
 import { UIRouterContext } from '@uirouter/react-hybrid';
+import { SETTINGS } from 'core/config/settings';
 
 import { NgReact } from 'core/reactShims';
 import { verticalNavExpandedAtom } from 'core/application/nav/navAtoms';
@@ -74,9 +75,11 @@ export const SpinnakerHeaderContent = () => {
             <li key="navHome">
               <a {...searchSref}>Search</a>
             </li>
-            <li key="navProjects">
-              <a {...projectsSref}>Projects</a>
-            </li>
+            {SETTINGS.feature.projects && (
+              <li key="navProjects">
+                <a {...projectsSref}>Projects</a>
+              </li>
+            )}
             <li key="navApplications">
               <a {...appsSref}>Applications</a>
             </li>

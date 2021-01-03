@@ -5,6 +5,7 @@ import { INestedState, STATE_CONFIG_PROVIDER, StateConfigProvider } from 'core/n
 import { ProjectHeader } from './ProjectHeader';
 import { IProject } from '../domain/IProject';
 import { ProjectReader } from './service/ProjectReader';
+import { SETTINGS } from '../config/settings';
 import { CORE_PROJECTS_PROJECTS_CONTROLLER } from './projects.controller';
 import { CORE_PROJECTS_DASHBOARD_DASHBOARD_CONTROLLER } from './dashboard/dashboard.controller';
 
@@ -22,6 +23,10 @@ module(PROJECTS_STATES_CONFIG, [
   'stateConfigProvider',
   'applicationStateProvider',
   (stateConfigProvider: StateConfigProvider, applicationStateProvider: ApplicationStateProvider) => {
+    if (!SETTINGS.feature.projects) {
+      return;
+    }
+
     const dashboard: INestedState = {
       name: 'dashboard',
       url: '/dashboard',

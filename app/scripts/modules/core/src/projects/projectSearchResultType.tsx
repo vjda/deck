@@ -15,6 +15,7 @@ import {
   ISearchResultSet,
 } from 'core/search';
 import { IProjectConfig } from 'core/domain';
+import { SETTINGS } from 'core/config/settings';
 
 export interface IProjectSearchResult extends ISearchResult {
   applications: string[];
@@ -85,4 +86,6 @@ class ProjectsSearchResultType extends SearchResultType<IProjectSearchResult> {
   }
 }
 
-searchResultTypeRegistry.register(new ProjectsSearchResultType());
+if (SETTINGS.feature.projects) {
+  searchResultTypeRegistry.register(new ProjectsSearchResultType());
+}

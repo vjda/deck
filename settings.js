@@ -91,6 +91,7 @@ window.spinnakerSettings = {
     slack: false,
     snapshots: false,
     functions: functionsEnabled,
+    projects: true,
   },
   gateUrl: apiHost,
   gitSources: ['stash', 'github', 'bitbucket', 'gitlab'],

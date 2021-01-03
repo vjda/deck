@@ -9,6 +9,7 @@ import { ConfigureProjectModal } from 'core/projects';
 import { ModalInjector, ReactInjector } from 'core/reactShims';
 import { OverrideRegistry } from 'core/overrideRegistry';
 import { CacheInitializerService } from 'core/cache';
+import { SETTINGS } from 'core/config/settings';
 
 export interface IInsightMenuProps {
   createApp?: boolean;
@@ -21,7 +22,11 @@ export interface IInsightMenuState {
 }
 
 export class InsightMenu extends React.Component<IInsightMenuProps, IInsightMenuState> {
-  public static defaultProps: IInsightMenuProps = { createApp: true, createProject: true, refreshCaches: true };
+  public static defaultProps: IInsightMenuProps = {
+    createApp: true,
+    createProject: SETTINGS.feature.projects,
+    refreshCaches: true,
+  };
 
   private $rootScope: IScope;
   private $uibModal: IModalService;
